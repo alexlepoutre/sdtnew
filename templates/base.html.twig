@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+        {% endblock %}
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <img src="http://www.itroom.fr/IT-Room/img-file/logo.png" width="100px" style="margin-right:5px;background-color:#FFF;padding:5px">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('task_index') }}">Intervention</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('client_index') }}">Client</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('user_index') }}">Utilisateur</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('type_inter_index') }}">Type d'intervention</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('project_index') }}">Projet</a>
+            </li>
+            </ul>
+        </div>
+        </nav>
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypeInter{% endblock %}
+
+{% block body %}
+    <h1>Edit TypeInter</h1>
+
+    {{ include('type_inter/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('type_inter_index') }}">back to list</a>
+
+    {{ include('type_inter/_delete_form.html.twig') }}
+{% endblock %}

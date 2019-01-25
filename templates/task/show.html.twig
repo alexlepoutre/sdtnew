@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task{% endblock %}
+
+{% block body %}
+    <h1>Task</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ task.id }}</td>
+            </tr>
+            <tr>
+                <th>Subject</th>
+                <td>{{ task.subject }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ task.createdAt ? task.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ task.date ? task.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ task.content }}</td>
+            </tr>
+            <tr>
+                <th>RefMantis</th>
+                <td>{{ task.refMantis }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ task.duration }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('task_index') }}">back to list</a>
+
+    <a href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
+
+    {{ include('task/_delete_form.html.twig') }}
+{% endblock %}

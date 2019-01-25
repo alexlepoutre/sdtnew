@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeInter index{% endblock %}
+
+{% block body %}
+    <h1>TypeInter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_inter in type_inters %}
+            <tr>
+                <td>{{ type_inter.id }}</td>
+                <td>{{ type_inter.name }}</td>
+                <td>
+                    <a href="{{ path('type_inter_show', {'id': type_inter.id}) }}">show</a>
+                    <a href="{{ path('type_inter_edit', {'id': type_inter.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_inter_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TypeInter{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeInter</h1>
+
+    {{ include('type_inter/_form.html.twig') }}
+
+    <a href="{{ path('type_inter_index') }}">back to list</a>
+{% endblock %}
