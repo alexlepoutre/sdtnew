@@ -35,12 +35,11 @@ class TaskController extends AbstractController
      */
     public function rech(TaskRepository $taskRepository, $id): Response
     {
-        $taskRepository = $this->getDoctrine()->getRepository(Task::class);
-
+        
         //ref_mantis = 10220202
         return $this->render('task/index.html.twig', [
             'tasks' => $taskRepository->findBy(
-                ['id' => $id]
+                ['refMantis' => $id]
             )
         ]);
     }

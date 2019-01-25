@@ -2,9 +2,24 @@
 
 {% block title %}Task index{% endblock %}
 
+  
+
 {% block body %}
     <h1>Task index</h1>
-
+    <script type="application/javascript" >
+        function go() {
+            tmp = "/task/rech/" + document.getElementById("monChamp").value + "";
+            if (tmp == "/task/rech/" ) {
+                alert("Il n'y a pas de ref mantis" );
+            }
+            else 
+                location.href=tmp;
+        }
+    
+    </script>
+        Ref Mantis<input type="Text" id="monChamp" ><input type="button" value="Go" 
+        onClick="go();" >
+        
     <table class="table">
         <thead>
             <tr>
