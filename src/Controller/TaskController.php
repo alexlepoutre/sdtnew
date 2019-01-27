@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 /**
  * @Route("/task")
@@ -26,6 +27,7 @@ class TaskController extends AbstractController
     public function index(TaskRepository $taskRepository): Response
     {
         return $this->render('task/index.html.twig', [
+            'msg' => 'Toutes les taches',
             'tasks' => $taskRepository->findAll(),
         ]);
     }
@@ -38,6 +40,7 @@ class TaskController extends AbstractController
         
         //ref_mantis = 10220202
         return $this->render('task/index.html.twig', [
+            'msg' => 'Toutes les taches ref mantis ' .$id,
             'tasks' => $taskRepository->findBy(
                 ['refMantis' => $id]
             )
@@ -51,21 +54,35 @@ class TaskController extends AbstractController
     {
         $task = new Task();
         $form = $this->createForm(Task1Type::class, $task)
+        ->add('date', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+            'data' => new \DateTime("now"),
+        ])
+        ->add('createdAt', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+            'data' => new \DateTime("now"),
+        ])
         ->add('user', EntityType::class, [
             'class' => User::class,
             'choice_label' => 'name',
+            'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('client', EntityType::class, [
             'class' => Client::class,
             'choice_label' => 'name',
+            'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('typeInter', EntityType::class, [
             'class' => TypeInter::class,
             'choice_label' => 'name',
+            'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('project', EntityType::class, [
             'class' => Project::class,
             'choice_label' => 'name',
+            'placeholder' => ' - - Fais ton choix - -',
         ])
         ;
         $form->handleRequest($request);

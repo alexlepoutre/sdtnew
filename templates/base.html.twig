@@ -6,6 +6,7 @@
         {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
         {% endblock %}
+        
     </head>
     <body>
 
@@ -17,7 +18,16 @@
                 <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('task_index') }}">Intervention</a>
+                <a class="nav-link" href="{{ path('task_index') }}">Liste des Interventions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('task_new') }}">Nouvelle intervention</a>
+            </li>
+            <li class="nav-item">
+                ||
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('recherche') }}">Recherche</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('client_index') }}">Client</a>

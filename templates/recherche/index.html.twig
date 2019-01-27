@@ -1,20 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Task index{% endblock %}
-
-  
+{% block title %}Hello RechercheController!{% endblock %}
 
 {% block body %}
-    <h1>Task index</h1>
-    
-    {% if msg == "" %}
-     message null
-    {% endif %}
-    <hr>
-    {{ msg }}
-    <hr>
-        
-    <table class="table">
+
+
+<div class="example-wrapper">
+    <h1>Recherche ✅</h1>
+{{ msg }}
+<hr>
+    {{ include('recherche/_form.html.twig') }}
+   
+   <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -54,5 +51,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('task_new') }}">Create new</a>
+</div>
 {% endblock %}
