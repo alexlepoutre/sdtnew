@@ -29,20 +29,24 @@ class RechercheController extends AbstractController
         ->add('user', EntityType::class, [
             'class' => User::class,
             'choice_label' => 'mail',
+            'required'   => false,
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('client', EntityType::class, [
             'class' => Client::class,
+            'required'   => false,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('typeInter', EntityType::class, [
             'class' => TypeInter::class,
+            'required'   => false,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('project', EntityType::class, [
             'class' => Project::class,
+            'required'   => false,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
         ]);
@@ -57,21 +61,31 @@ class RechercheController extends AbstractController
                     'msg' => 'Coucou',
                 ]);
             }    
-            else {
+            else 
+            {
+                /*
+                $entityManager = $this->getEntityManager();
+                $query = $entityManager->createQuery(
+                    'SELECT p
+                    FROM \App\Entity\Task p
+                    WHERE p.ref_mantis = :ref
+                    ORDER BY p.ref_mantis ASC'
+                )->setParameter('ref', $form->get('refMantis')->getData() );
+                
+                $tasks = $query->getResult();
+*/
+                $msg = 'Resultat pour ref mantis ' . $form->get('refMantis')->getData();
+                if ( $form->get('client')->getData() != null ) $msg .= ' client ' . $form->get('client')->getData()->getName();
+                
                 return $this->render('recherche/index.html.twig', [
                     'form' => $form->createView(),
-                    'msg' => 'Resultat pour ref mantis' . $form->get('refMantis')->getData(),
-                    'tasks' => $taskRepository->findBy(
-                        [
-                            'refMantis' => $form->get('refMantis')->getData(),
-                            'client' => $form->get('client')->getData(),
-                         ]
+                    'msg' => $msg,
+                    'tasks' => $taskRepository->findByMultiplFields(
+                        $form->get('refMantis')->getData(),
+                        $form->get('client')->getData()
                     )
                 ]);
-                    }
-
-    
-
+            }
         }
         else
         {

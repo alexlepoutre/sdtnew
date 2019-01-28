@@ -19,22 +19,25 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    // /**
-    //  * @return Task[] Returns an array of Task objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Task[] Returns an array of Task objects
+    */
+    
+    //, $client, $typeInter, $ptojet
+    public function findByMultiplFields( $refMantis, $client )
     {
+        // comment on fait pour que ça fonctionne même 
+        //si il n'y a que le client ou que la ref ou les deux ?
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
+            ->andWhere('t.client = :val', 't.refMantis = :val1')
+            ->setParameter('val', $client)
+            ->setParameter('val1', $refMantis)
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Task
