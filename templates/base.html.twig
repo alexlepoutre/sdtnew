@@ -41,6 +41,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('project_index') }}">Projet</a>
             </li>
+            {% if not app.user %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                {{ app.user.mail }}&nbsp;<a class="nav-link" style="color:red" href="{{ path('security_logout') }}">&nbsp;X&nbsp;</a>
+            </li>
+            {% endif %}
             </ul>
         </div>
         </nav>

@@ -2,14 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *     fields={"mail"},
+ *     message="Cet email est déjà utilisé."
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -27,6 +33,11 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -61,6 +72,18 @@ class User
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUserame(string $userName): self
+    {
+        $this->username = $username;
 
         return $this;
     }
@@ -131,4 +154,14 @@ class User
 
         return $this;
     }
+
+    public function eraseCredentials() {}
+
+    public function getSalt() {}
+
+    public function getRoles() 
+    { 
+        return ['ROLE_USER']; 
+    }
+
 }

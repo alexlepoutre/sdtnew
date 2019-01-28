@@ -24,18 +24,40 @@ class TaskRepository extends ServiceEntityRepository
     */
     
     //, $client, $typeInter, $ptojet
-    public function findByMultiplFields( $refMantis, $client )
+    public function findByMultiplFields( $refMantis = null , $client = null )
     {
         // comment on fait pour que ça fonctionne même 
         //si il n'y a que le client ou que la ref ou les deux ?
+       
+
+        $qb = $this->createQueryBuilder('t')
+            ->andWhere('t.refMantis = :val1');
+
+            if ($client != null ){
+                //var_dump($client);
+                $qb->andWhere('t.client = :val')
+                ->setParameter('val', $client);
+            }
+            $qb->setParameter('val1', $refMantis)
+            ->setMaxResults(10)
+        ;
+        
+        return $qb->getQuery()
+            ->getResult();
+
+        
+
+        /*
         return $this->createQueryBuilder('t')
-            ->andWhere('t.client = :val', 't.refMantis = :val1')
+            ->andWhere('t.refMantis = :val1')
+            ->andWhere( 't.client = :val')
             ->setParameter('val', $client)
             ->setParameter('val1', $refMantis)
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
+        */
     }
     
 

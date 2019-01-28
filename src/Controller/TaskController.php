@@ -66,7 +66,7 @@ class TaskController extends AbstractController
         ])
         ->add('user', EntityType::class, [
             'class' => User::class,
-            'choice_label' => 'name',
+            'choice_label' => 'mail',
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('client', EntityType::class, [
