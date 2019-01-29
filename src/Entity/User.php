@@ -76,12 +76,43 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        if ( $roles == null ) $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role) {
+        $this->roles[] = $role;
+    }
+
+    public function resetRoles()
+    {
+        $this->roles = [];
+    }
+
+
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUserame(string $userName): self
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -158,10 +189,5 @@ class User implements UserInterface
     public function eraseCredentials() {}
 
     public function getSalt() {}
-
-    public function getRoles() 
-    { 
-        return ['ROLE_USER']; 
-    }
 
 }

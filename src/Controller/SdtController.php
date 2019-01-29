@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SdtController extends AbstractController
 {
@@ -12,6 +13,10 @@ class SdtController extends AbstractController
      */
     public function index()
     {
-        return $this->render('sdt/index.html.twig');
+        $user = new User;
+
+        return $this->render('sdt/index.html.twig', [
+            'user' => $user
+        ]);
     }
 }

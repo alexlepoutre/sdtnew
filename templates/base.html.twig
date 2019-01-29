@@ -47,7 +47,7 @@
             </li>
             {% else %}
             <li class="nav-item">
-                {{ app.user.mail }}&nbsp;<a class="nav-link" style="color:red" href="{{ path('security_logout') }}">&nbsp;X&nbsp;</a>
+                {{ app.user.firstname }}&nbsp;<a class="nav-link" style="color:red" href="{{ path('security_logout') }}">&nbsp;X&nbsp;{{ app.user.roles[0] }}</a>
             </li>
             {% endif %}
             </ul>
