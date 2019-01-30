@@ -14,7 +14,6 @@
     <p>Outil de saisi des temps</p>
      {% if app.user %}
     <p>{{ app.user.firstname }} {{ app.user.name }}</p>
-    {{ dump(app.user) }}
     {{ app.user.roles[0] }}
     {% endif %}
 </div>
