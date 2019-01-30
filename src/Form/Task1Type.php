@@ -13,7 +13,6 @@ class Task1Type extends AbstractType
     {
         $builder
             ->add('subject')
-            ->add('createdAt')
             ->add('date')
             ->add('content')
             ->add('refMantis')

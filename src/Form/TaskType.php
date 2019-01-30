@@ -17,7 +17,6 @@ class TaskType extends AbstractType
             ->add('content')
             ->add('refMantis')
             ->add('duration')
-            ->add('user')
             ->add('client')
             ->add('taskType')
             ->add('project')
