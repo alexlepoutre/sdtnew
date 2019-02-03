@@ -24,23 +24,50 @@ class TaskRepository extends ServiceEntityRepository
     */
     
     //, $client, $typeInter, $ptojet
-    public function findByMultiplFields( $refMantis = null , $client = null )
+    public function findByMultiplFields( $refMantis = null, $client = null, $project = null, $typeInter = null, $user = null, $dateD = null, $dateF = null )
     {
         // comment on fait pour que ça fonctionne même 
         //si il n'y a que le client ou que la ref ou les deux ?
        
 
-        $qb = $this->createQueryBuilder('t')
-            ->andWhere('t.refMantis = :val1');
+        $qb = $this->createQueryBuilder('t');
+
+            if ($refMantis != null ){
+                $qb->andWhere('t.refMantis = :val')
+                ->setParameter('val', $refMantis);
+            }
 
             if ($client != null ){
-                //var_dump($client);
-                $qb->andWhere('t.client = :val')
-                ->setParameter('val', $client);
+                $qb->andWhere('t.client = :val1')
+                ->setParameter('val1', $client);
             }
-            $qb->setParameter('val1', $refMantis)
-            ->setMaxResults(10)
-        ;
+
+            if ($project != null ){
+                $qb->andWhere('t.project = :val2')
+                ->setParameter('val2', $project);
+            }
+
+            if ($typeInter != null ){
+                $qb->andWhere('t.typeInter = :val3')
+                ->setParameter('val3', $typeInter);
+            }
+
+            if ($user != null ){
+                $qb->andWhere('t.user = :val4')
+                ->setParameter('val4', $user);
+            }
+
+            if ($dateD != null ){
+                $qb->andWhere('t.date >= :val5')
+                ->setParameter('val5', $dateD);
+            }
+
+            if ($dateF != null ){
+                $qb->andWhere('t.date <= :val6')
+                ->setParameter('val6', $dateF);
+            }
+
+           // $qb->setMaxResults(10);
         
         return $qb->getQuery()
             ->getResult();

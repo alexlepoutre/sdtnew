@@ -7,22 +7,33 @@
 
 <div class="example-wrapper">
     <h1>Recherche ✅</h1>
-{{ msg }}
+Filtres actifs {{ msg }}
+<br>
+Nombre d'entrée {{ tasks|length }} <br>
+{% set sum = 0 %}
+
+{% for task in tasks %}
+
+   {% set sum = sum + task.duration %}
+
+{% endfor %}
+Nombre d'heure {{ sum }}
+
 <hr>
     {{ include('recherche/_form.html.twig') }}
    
    <table class="table">
-        <thead>
+       <thead>
             <tr>
                 <th>Id</th>
                 <th>Subject</th>
-                <th>CreatedAt</th>
+                <th>User</th>
                 <th>Date</th>
-                <th>Content</th>
                 <th>RefMantis</th>
                 <th>Duration</th>
                 <th>Type Inter</th>
                 <th>Client</th>
+                <th>Projet</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -31,13 +42,13 @@
             <tr>
                 <td>{{ task.id }}</td>
                 <td>{{ task.subject }}</td>
-                <td>{{ task.createdAt ? task.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ task.date ? task.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ task.content }}</td>
+                <td>{{ task.user.firstname }}</td>
+                <td>{{ task.date ? task.date|date('Y-m-d') : '' }}</td>
                 <td>{{ task.refMantis }}</td>
                 <td>{{ task.duration }}</td>
                 <td>{{ task.typeInter.name }}</td>
                 <td>{{ task.client.name }}</td>
+                <td>{{ task.project.name }}</td>
                 <td>
                     <a href="{{ path('task_show', {'id': task.id}) }}">show</a>
                     <a href="{{ path('task_edit', {'id': task.id}) }}">edit</a>

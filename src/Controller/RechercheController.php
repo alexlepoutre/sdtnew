@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Task;
 use App\Entity\User;
 use App\Entity\Client;
-use App\Entity\TypeInter;
 use App\Entity\Project;
-use App\Entity\Task;
+use App\Entity\TypeInter;
 use App\Form\RechercheType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Repository\TaskRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Repository\TaskRepository;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RechercheController extends AbstractController
 {
@@ -49,51 +51,70 @@ class RechercheController extends AbstractController
             'required'   => false,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
-        ]);
+        ])
+        ->add('dateD', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+            'required'   => false,
+            'empty_data' => null,
+        ])
+        ->add('dateF', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+            'required'   => false,
+            'empty_data' => null,
+        ])
+        ;
+
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        //var_dump($form->get('date')->getData());
 
-            if ( $form->get('refMantis')->getData()  == '' ) {
-                return $this->render('recherche/index.html.twig', [
-                    'form' => $form->createView(),
-                    'msg' => 'Coucou',
-                ]);
-            }    
+        //&& $form->isValid()
+
+        if ($form->isSubmitted() ) {
+
+           
+            $msg = '';
+
+            if ( $form->get('refMantis')->getData() != null ) $msg .= ' / refMantis ' . $form->get('refMantis')->getData();
+            if ( $form->get('client')->getData() != null ) $msg .= ' / client ' . $form->get('client')->getData()->getName();
+            if ( $form->get('project')->getData() != null ) $msg .= ' / projet ' . $form->get('project')->getData()->getName();
+            if ( $form->get('typeInter')->getData() != null ) $msg .= ' / typeInter ' . $form->get('typeInter')->getData()->getName();
+            if ( $form->get('user')->getData() != null ) $msg .= ' / user ' . $form->get('user')->getData()->getName();
+            
+            
+            if ( $form->get('dateD')->getData() != null ) $msg .= ' / dateD ' . $form->get('dateD')->getData()->format('d/m/Y');
+            if ( $form->get('dateF')->getData() != null ) $msg .= ' / dateF ' . $form->get('dateF')->getData()->format('d/m/Y');
+            
+            if ($form->get('refMantis')->getData() == null && $form->get('client')->getData() == null && $form->get('project')->getData() == null && $form->get('typeInter')->getData() == null && $form->get('user')->getData() == null && $form->get('dateD')->getData() == null && $form->get('dateF')->getData() == null ) {
+                return $this->redirectToRoute('recherche');
+            }
             else 
             {
-                /*
-                $entityManager = $this->getEntityManager();
-                $query = $entityManager->createQuery(
-                    'SELECT p
-                    FROM \App\Entity\Task p
-                    WHERE p.ref_mantis = :ref
-                    ORDER BY p.ref_mantis ASC'
-                )->setParameter('ref', $form->get('refMantis')->getData() );
-                
-                $tasks = $query->getResult();
-*/
-                $msg = 'Resultat pour ref mantis ' . $form->get('refMantis')->getData();
-                if ( $form->get('client')->getData() != null ) $msg .= ' client ' . $form->get('client')->getData()->getName();
-                
                 return $this->render('recherche/index.html.twig', [
                     'form' => $form->createView(),
                     'msg' => $msg,
                     'tasks' => $taskRepository->findByMultiplFields(
                         $form->get('refMantis')->getData(),
-                        $form->get('client')->getData()
+                        $form->get('client')->getData(),
+                        $form->get('project')->getData(),
+                        $form->get('typeInter')->getData(),
+                        $form->get('user')->getData(),
+                        $form->get('dateD')->getData(),
+                        $form->get('dateF')->getData()
                     )
                 ]);
             }
+
         }
         else
         {
             return $this->render('recherche/index.html.twig', [
                 'form' => $form->createView(),
                 'tasks' => $taskRepository->findAll(),
-                'msg' => 'Entrez votre recherche',
-                'controller_name' => 'RechercheController',
+                'msg' => 'Entrez votre recherche'
             ]);
         }
         

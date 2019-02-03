@@ -20,6 +20,7 @@ class TaskType extends AbstractType
             ->add('client')
             ->add('taskType')
             ->add('project')
+            ->add('user')
         ;
     }
 

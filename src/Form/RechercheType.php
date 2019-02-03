@@ -6,6 +6,8 @@ use App\Entity\Task;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class RechercheType extends AbstractType
@@ -18,7 +20,7 @@ class RechercheType extends AbstractType
             ->add('client')
             ->add('project')
             ->add('typeInter')
-        ;
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

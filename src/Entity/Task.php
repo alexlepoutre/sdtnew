@@ -31,6 +31,17 @@ class Task
      */
     private $date;
 
+    public $dateD;
+    public function getDateD(): ?\DateTimeInterface
+    {
+        return $this->dateD;
+    }
+    public $dateF;
+    public function getDateF(): ?\DateTimeInterface
+    {
+        return $this->dateF;
+    }
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
