@@ -53,7 +53,7 @@ class Task
     private $refMantis;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", scale=2)
      */
     private $duration;
 

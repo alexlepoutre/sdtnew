@@ -67,7 +67,7 @@ class TaskRepository extends ServiceEntityRepository
                 ->setParameter('val6', $dateF);
             }
 
-           // $qb->setMaxResults(10);
+            $qb->setMaxResults(1000);
         
         return $qb->getQuery()
             ->getResult();

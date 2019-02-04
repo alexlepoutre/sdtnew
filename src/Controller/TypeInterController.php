@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/type/inter")
+ * @Route("")
  */
 class TypeInterController extends AbstractController
 {
     /**
-     * @Route("/", name="type_inter_index", methods={"GET"})
+     * @Route("/type", name="type_inter_index", methods={"GET"})
      */
     public function index(TypeInterRepository $typeInterRepository): Response
     {
@@ -26,7 +26,7 @@ class TypeInterController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="type_inter_new", methods={"GET","POST"})
+     * @Route("/admin/type/new", name="type_inter_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class TypeInterController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="type_inter_show", methods={"GET"})
+     * @Route("/type/{id}", name="type_inter_show", methods={"GET"})
      */
     public function show(TypeInter $typeInter): Response
     {
@@ -59,7 +59,7 @@ class TypeInterController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="type_inter_edit", methods={"GET","POST"})
+     * @Route("/admin/type/{id}/edit", name="type_inter_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, TypeInter $typeInter): Response
     {
@@ -81,7 +81,7 @@ class TypeInterController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="type_inter_delete", methods={"DELETE"})
+     * @Route("/admin/type/{id}", name="type_inter_delete", methods={"DELETE"})
      */
     public function delete(Request $request, TypeInter $typeInter): Response
     {

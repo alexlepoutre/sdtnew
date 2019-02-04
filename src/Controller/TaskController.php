@@ -26,9 +26,19 @@ class TaskController extends AbstractController
      */
     public function index(TaskRepository $taskRepository): Response
     {
+
+        //        ->orderBy('p.date', 'DESC') 
+        
+        $query = $taskRepository->createQueryBuilder('p')
+        ->where('1=1')
+        ->getQuery()
+        ->setMaxResults(1000);
+
+        $tasks = $query->getResult();
+
         return $this->render('task/index.html.twig', [
             'msg' => 'Toutes les taches',
-            'tasks' => $taskRepository->findAll(),
+            'tasks' => $tasks,
         ]);
     }
 

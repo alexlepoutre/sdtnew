@@ -57,12 +57,14 @@ class RechercheController extends AbstractController
             'format' => 'yyyy-MM-dd',
             'required'   => false,
             'empty_data' => null,
+            'data' => new \DateTime("- 30 days")
         ])
         ->add('dateF', DateType::class, [
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
             'required'   => false,
             'empty_data' => null,
+            'data' => new \DateTime("now")
         ])
         ;
 
@@ -111,9 +113,22 @@ class RechercheController extends AbstractController
         }
         else
         {
+            $query = $taskRepository->createQueryBuilder('t')
+            ->where('1=1')
+            ->orderBy('t.date', 'DESC')
+            ->andWhere('t.date >= :val5')
+            ->setParameter('val5', $form->get('dateD')->getData())
+            ->andWhere('t.date <= :val6')
+            ->setParameter('val6', $form->get('dateF')->getData())
+            ->getQuery()
+            ->setMaxResults(1000);
+
+            $tasks = $query->getResult();
+
+
             return $this->render('recherche/index.html.twig', [
                 'form' => $form->createView(),
-                'tasks' => $taskRepository->findAll(),
+                'tasks' => $tasks,
                 'msg' => 'Entrez votre recherche'
             ]);
         }
