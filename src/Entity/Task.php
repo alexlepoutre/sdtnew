@@ -146,12 +146,12 @@ class Task
         return $this;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): ?float
     {
         return $this->duration;
     }
 
-    public function setDuration(int $duration): self
+    public function setDuration(float $duration): self
     {
         $this->duration = $duration;
 

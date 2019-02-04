@@ -9,6 +9,8 @@ use App\Entity\Project;
 use App\Entity\TypeInter;
 use App\Form\RechercheType;
 use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
+use App\Repository\ClientRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,12 +31,20 @@ class RechercheController extends AbstractController
 
         $form = $this->createForm(RechercheType::class)
         ->add('user', EntityType::class, [
+            'query_builder' => function (UserRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.mail', 'ASC');
+            },
             'class' => User::class,
             'choice_label' => 'mail',
             'required'   => false,
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('client', EntityType::class, [
+            'query_builder' => function (ClientRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+            },
             'class' => Client::class,
             'required'   => false,
             'choice_label' => 'name',
