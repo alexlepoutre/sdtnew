@@ -24,6 +24,11 @@ class Client
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $actif;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
@@ -51,6 +56,18 @@ class Client
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getActif(): ?string
+    {
+        return $this->actif;
+    }
+
+    public function setActif(string $actif): self
+    {
+        $this->actif = $actif;
 
         return $this;
     }

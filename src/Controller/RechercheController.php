@@ -33,12 +33,13 @@ class RechercheController extends AbstractController
         ->add('user', EntityType::class, [
             'query_builder' => function (UserRepository $er) {
                 return $er->createQueryBuilder('u')
+                    ->andWhere('u.actif != :val5')
+                    ->setParameter('val5', 'non' )
                     ->orderBy('u.mail', 'ASC');
             },
+            'data' => $this->getUser(),
             'class' => User::class,
             'choice_label' => 'mail',
-            'required'   => false,
-            'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('client', EntityType::class, [
             'query_builder' => function (ClientRepository $er) {
@@ -130,8 +131,8 @@ class RechercheController extends AbstractController
             ->setParameter('val5', $form->get('dateD')->getData())
             ->andWhere('t.date <= :val6')
             ->setParameter('val6', $form->get('dateF')->getData())
-            ->getQuery()
-            ->setMaxResults(1000);
+            ->getQuery();
+            //->setMaxResults(1000);
 
             $tasks = $query->getResult();
 

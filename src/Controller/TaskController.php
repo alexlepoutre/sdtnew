@@ -5,11 +5,12 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Entity\User;
 use App\Entity\Client;
+use App\Form\TaskType;
 use App\Entity\Project;
-use App\Form\Task1Type;
 use App\Entity\TypeInter;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
+use App\Repository\ClientRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +34,7 @@ class TaskController extends AbstractController
         $query = $taskRepository->createQueryBuilder('p')
         ->where('1=1')
         ->getQuery()
-        ->setMaxResults(1000);
+        ->setMaxResults(100);
 
         $tasks = $query->getResult();
 
@@ -64,7 +65,7 @@ class TaskController extends AbstractController
     public function new(Request $request): Response
     {
         $task = new Task();
-        $form = $this->createForm(Task1Type::class, $task)
+        $form = $this->createForm(TaskType::class, $task)
         ->add('date', DateType::class, [
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
@@ -78,6 +79,8 @@ class TaskController extends AbstractController
         ->add('user', EntityType::class, [
             'query_builder' => function (UserRepository $er) {
                 return $er->createQueryBuilder('u')
+                    ->andWhere('u.actif != :val5')
+                    ->setParameter('val5', 'non' )
                     ->orderBy('u.mail', 'ASC');
             },
             'data' => $this->getUser(),
@@ -85,6 +88,12 @@ class TaskController extends AbstractController
             'choice_label' => 'mail',
         ])
         ->add('client', EntityType::class, [
+            'query_builder' => function (ClientRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->andWhere('u.actif != :val5')
+                    ->setParameter('val5', 'non' )
+                    ->orderBy('u.name', 'ASC');
+            },
             'class' => Client::class,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
@@ -132,7 +141,7 @@ class TaskController extends AbstractController
      */
     public function edit(Request $request, Task $task): Response
     {
-        $form = $this->createForm(Task1Type::class, $task)
+        $form = $this->createForm(TaskType::class, $task)
         ->add('user', EntityType::class, [
             'query_builder' => function (UserRepository $er) {
                 return $er->createQueryBuilder('u')

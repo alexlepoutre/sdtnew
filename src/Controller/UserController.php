@@ -62,7 +62,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/user/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/user/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
     {
@@ -73,7 +73,6 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $encoded = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encoded);
-            //$user->setRoles(['ROLE_ADMIN']);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -82,10 +81,22 @@ class UserController extends AbstractController
             ]);
         }
 
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
+        if ( $user->getMail() == $this->getUser()->getMail() || $this->getUser()->getRoles()[0] == 'ROLE_ADMIN' )
+        {
+            //var_dump($form->get('password')->getData());
+            return $this->render('user/edit.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]);    
+        }
+        else
+        {
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]);
+        }
+        
     }
 
     /**

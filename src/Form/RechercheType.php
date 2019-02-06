@@ -19,7 +19,6 @@ class RechercheType extends AbstractType
             ->add('user')
             ->add('client')
             ->add('project')
-            ->add('typeInter')
             ;
     }
 
