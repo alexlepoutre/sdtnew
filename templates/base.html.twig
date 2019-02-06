@@ -57,8 +57,9 @@
                 <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
             </li>
             {% else %}
-            <li class="nav-item">
-                {{ app.user.firstname }}&nbsp;<a class="nav-link" style="color:red" href="{{ path('security_logout') }}">&nbsp;X&nbsp;{{ app.user.roles[0] }}</a>
+            <li class="nav-item" style="text-align: center;">
+                <a style="color:#FFF" href="{{ path('user_show', {'id': app.user.id}) }}"> {{ app.user.firstname }} </a>
+                <a class="nav-link" style="color:red" href="{{ path('security_logout') }}"> >> Déconnexion < <</a>
             </li>
             {% endif %}
             </ul>

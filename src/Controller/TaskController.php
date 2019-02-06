@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -102,9 +103,10 @@ class TaskController extends AbstractController
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
         ])
-        ->add('content')
+        ->add('content', TextareaType::class, [
+            'attr' => ['class' => 'tinymce'],
+        ])
         ;
-
 
         $form->handleRequest($request);
 
