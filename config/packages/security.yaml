@@ -36,10 +36,11 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+     
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/task/, roles: ROLE_USER }
-        - { path: ^/client, roles: ROLE_USER }
-        - { path: ^/project, roles: ROLE_USER }
-        - { path: ^/type, roles: ROLE_USER }
-        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/task/, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/client, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/project, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/type, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/user, roles: [ROLE_USER, ROLE_ADMIN] }
