@@ -41,6 +41,8 @@ class User implements UserInterface
      */
     private $username;
 
+    private $passwd;
+
      /**
      * @ORM\Column(type="string", length=255)
      */
@@ -52,7 +54,7 @@ class User implements UserInterface
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $password;
 
@@ -83,6 +85,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPasswd(): ?string
+    {
+        return $this->passwd;
+    }
+
+    public function setPasswd(string $passwd): self
+    {
+        $this->passwd = $passwd;
+
+        return $this;
+    }
+    
     public function getActif(): ?string
     {
         return $this->actif;

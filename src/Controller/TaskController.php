@@ -11,6 +11,8 @@ use App\Entity\TypeInter;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use App\Repository\ClientRepository;
+use App\Repository\ProjectRepository;
+use App\Repository\TypeInterRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,49 +47,29 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/rech/{id}", name="task_rech", methods={"GET"})
-     */
-    public function rech(TaskRepository $taskRepository, $id): Response
-    {
-        
-        //ref_mantis = 10220202
-        return $this->render('task/index.html.twig', [
-            'msg' => 'Toutes les taches ref mantis ' .$id,
-            'tasks' => $taskRepository->findBy(
-                ['refMantis' => $id]
-            )
-        ]);
-    }
-
-    /**
      * @Route("/new", name="task_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $task = new Task();
-        $form = $this->createForm(TaskType::class, $task)
-        ->add('date', DateType::class, [
-            'widget' => 'single_text',
-            'format' => 'yyyy-MM-dd',
-            'data' => new \DateTime("now"),
-        ])
-        ->add('createdAt', DateType::class, [
-            'widget' => 'single_text',
-            'format' => 'yyyy-MM-dd',
-            'data' => new \DateTime("now"),
-        ])
-        ->add('user', EntityType::class, [
-            'query_builder' => function (UserRepository $er) {
-                return $er->createQueryBuilder('u')
-                    ->andWhere('u.actif != :val5')
-                    ->setParameter('val5', 'non' )
-                    ->orderBy('u.mail', 'ASC');
-            },
-            'data' => $this->getUser(),
-            'class' => User::class,
-            'choice_label' => 'mail',
-        ])
-        ->add('client', EntityType::class, [
+        $form = $this->createForm(TaskType::class, $task);
+
+        if ( $this->getUser()->getRoles()[0] == 'ROLE_ADMIN' ) {
+
+            $form->add('user', EntityType::class, [
+                'query_builder' => function (UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->andWhere('u.actif != :val5')
+                        ->setParameter('val5', 'non' )
+                        ->orderBy('u.mail', 'ASC');
+                },
+                'data' => $this->getUser(),
+                'class' => User::class,
+                'choice_label' => 'mail',
+            ]);
+        }
+
+        $form->add('client', EntityType::class, [
             'query_builder' => function (ClientRepository $er) {
                 return $er->createQueryBuilder('u')
                     ->andWhere('u.actif != :val5')
@@ -99,16 +81,31 @@ class TaskController extends AbstractController
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('typeInter', EntityType::class, [
+            'query_builder' => function (TypeInterRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->andWhere('u.actif != :val5')
+                    ->setParameter('val5', 'non' )
+                    ->orderBy('u.name', 'ASC');
+            },
             'class' => TypeInter::class,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('project', EntityType::class, [
+            'query_builder' => function (ProjectRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->andWhere('u.actif != :val5')
+                    ->setParameter('val5', 'non' )
+                    ->orderBy('u.name', 'ASC');
+            },
             'class' => Project::class,
             'choice_label' => 'name',
             'placeholder' => ' - - Fais ton choix - -',
         ])
+        ->add('content')
         ;
+
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -183,10 +180,12 @@ class TaskController extends AbstractController
      */
     public function delete(Request $request, Task $task): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($task);
-            $entityManager->flush();
+        if ( $this->getUser()->getRoles()[0] == 'ROLE_ADMIN' ) {
+            if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($task);
+                $entityManager->flush();
+            }
         }
 
         return $this->redirectToRoute('task_index');

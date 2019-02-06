@@ -24,6 +24,11 @@ class TypeInter
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $actif;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="typeInter")
      */
     private $tasks;
@@ -46,6 +51,18 @@ class TypeInter
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getActif(): ?string
+    {
+        return $this->actif;
+    }
+
+    public function setActif(string $actif): self
+    {
+        $this->actif = $actif;
 
         return $this;
     }

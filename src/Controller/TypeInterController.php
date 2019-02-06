@@ -36,6 +36,7 @@ class TypeInterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $typeInter->setActif('oui');
             $entityManager->persist($typeInter);
             $entityManager->flush();
 
@@ -85,10 +86,12 @@ class TypeInterController extends AbstractController
      */
     public function delete(Request $request, TypeInter $typeInter): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$typeInter->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($typeInter);
-            $entityManager->flush();
+        if ( $this->getUser()->getRoles()[0] == 'ROLE_ADMIN' ) {
+            if ($this->isCsrfTokenValid('delete'.$typeInter->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($typeInter);
+                $entityManager->flush();
+            }
         }
 
         return $this->redirectToRoute('type_inter_index');

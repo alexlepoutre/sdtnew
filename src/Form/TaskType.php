@@ -6,21 +6,21 @@ use App\Entity\Task;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('subject')
-            ->add('date')
-            ->add('content')
-            ->add('refMantis')
-            ->add('duration')
-            ->add('client')
-            ->add('typeInter')
-            ->add('project')
-            ->add('user')
+        ->add('date', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+            'data' => new \DateTime("now"),
+        ])
+        ->add('subject')
+        ->add('refMantis')
+        ->add('duration')
         ;
     }
 

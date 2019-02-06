@@ -36,6 +36,7 @@ class ClientController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $client->setActif('oui');
             $entityManager->persist($client);
             $entityManager->flush();
 
@@ -85,10 +86,12 @@ class ClientController extends AbstractController
      */
     public function delete(Request $request, Client $client): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($client);
-            $entityManager->flush();
+        if ( $this->getUser()->getRoles()[0] == 'ROLE_ADMIN' ) {
+            if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($client);
+                $entityManager->flush();
+            }
         }
 
         return $this->redirectToRoute('client_index');

@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/project")
+ * @Route("/")
  */
 class ProjectController extends AbstractController
 {
     /**
-     * @Route("/", name="project_index", methods={"GET"})
+     * @Route("/project", name="project_index", methods={"GET"})
      */
     public function index(ProjectRepository $projectRepository): Response
     {
@@ -26,7 +26,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="project_new", methods={"GET","POST"})
+     * @Route("/admin/project/new", name="project_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -36,6 +36,7 @@ class ProjectController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $project->setActif('oui');
             $entityManager->persist($project);
             $entityManager->flush();
 
@@ -49,7 +50,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="project_show", methods={"GET"})
+     * @Route("/project/{id}", name="project_show", methods={"GET"})
      */
     public function show(Project $project): Response
     {
@@ -59,7 +60,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="project_edit", methods={"GET","POST"})
+     * @Route("/project/{id}/edit", name="project_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Project $project): Response
     {
@@ -81,14 +82,16 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="project_delete", methods={"DELETE"})
+     * @Route("/project/{id}", name="project_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Project $project): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($project);
-            $entityManager->flush();
+        if ( $this->getUser()->getRoles()[0] == 'ROLE_ADMIN' ) {
+            if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($project);
+                $entityManager->flush();
+            }
         }
 
         return $this->redirectToRoute('project_index');

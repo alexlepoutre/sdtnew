@@ -28,6 +28,12 @@ class Project
      */
     private $tasks;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $actif;
+
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -46,6 +52,19 @@ class Project
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+
+    public function getActif(): ?string
+    {
+        return $this->actif;
+    }
+
+    public function setActif(string $actif): self
+    {
+        $this->actif = $actif;
 
         return $this;
     }
