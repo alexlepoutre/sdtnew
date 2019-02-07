@@ -38,6 +38,7 @@ class RechercheController extends AbstractController
                     ->orderBy('u.mail', 'ASC');
             },
             'class' => User::class,
+            'required' => false,
             'choice_label' => 'mail',
             'placeholder' => ' - - Fais ton choix - -',
         ])
