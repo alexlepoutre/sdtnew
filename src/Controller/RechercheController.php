@@ -37,9 +37,9 @@ class RechercheController extends AbstractController
                     ->setParameter('val5', 'non' )
                     ->orderBy('u.mail', 'ASC');
             },
-            'data' => $this->getUser(),
             'class' => User::class,
             'choice_label' => 'mail',
+            'placeholder' => ' - - Fais ton choix - -',
         ])
         ->add('client', EntityType::class, [
             'query_builder' => function (ClientRepository $er) {
