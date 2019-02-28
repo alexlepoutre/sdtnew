@@ -15,10 +15,10 @@
     {% endif %}
         <form action="{{ path('security_login') }}" method="post" >
 
-            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+            <input type="text" id="username" name="_username" class="username" value="{{ last_username }}" />
 
-            <input type="password" id="password" name="_password" />
-            <button type="submit">Connexion</button>
+            <input type="password" id="password" class="password" name="_password" />
+            <button type="submit" class="bt-submit" >Connexion</button>
  </form>
 </div>
 {% endblock %}

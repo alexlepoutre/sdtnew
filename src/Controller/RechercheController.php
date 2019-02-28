@@ -29,6 +29,9 @@ class RechercheController extends AbstractController
     {
         $task = new Task;
 
+        dump($request);
+        //'multiple' => true pour le champs user
+
         $form = $this->createForm(RechercheType::class)
         ->add('user', EntityType::class, [
             'query_builder' => function (UserRepository $er) {

@@ -51,7 +51,7 @@ class TaskRepository extends ServiceEntityRepository
                 $qb->andWhere('t.typeInter = :val3')
                 ->setParameter('val3', $typeInter);
             }
-
+            
             if ($user != null ){
                 $qb->andWhere('t.user = :val4')
                 ->setParameter('val4', $user);
