@@ -29,60 +29,9 @@ class RechercheController extends AbstractController
     {
         $task = new Task;
 
-        dump($request);
         //'multiple' => true pour le champs user
 
-        $form = $this->createForm(RechercheType::class)
-        ->add('user', EntityType::class, [
-            'query_builder' => function (UserRepository $er) {
-                return $er->createQueryBuilder('u')
-                    ->andWhere('u.actif != :val5')
-                    ->setParameter('val5', 'non' )
-                    ->orderBy('u.mail', 'ASC');
-            },
-            'class' => User::class,
-            'required' => false,
-            'choice_label' => 'mail',
-            'placeholder' => ' - - Fais ton choix - -',
-        ])
-        ->add('client', EntityType::class, [
-            'query_builder' => function (ClientRepository $er) {
-                return $er->createQueryBuilder('u')
-                    ->orderBy('u.name', 'ASC');
-            },
-            'class' => Client::class,
-            'required'   => false,
-            'choice_label' => 'name',
-            'placeholder' => ' - - Fais ton choix - -',
-        ])
-        ->add('typeInter', EntityType::class, [
-            'class' => TypeInter::class,
-            'required'   => false,
-            'choice_label' => 'name',
-            'placeholder' => ' - - Fais ton choix - -',
-        ])
-        ->add('project', EntityType::class, [
-            'class' => Project::class,
-            'required'   => false,
-            'choice_label' => 'name',
-            'placeholder' => ' - - Fais ton choix - -',
-        ])
-        ->add('dateD', DateType::class, [
-            'widget' => 'single_text',
-            'format' => 'yyyy-MM-dd',
-            'required'   => false,
-            'empty_data' => null,
-            'data' => new \DateTime("- 30 days")
-        ])
-        ->add('dateF', DateType::class, [
-            'widget' => 'single_text',
-            'format' => 'yyyy-MM-dd',
-            'required'   => false,
-            'empty_data' => null,
-            'data' => new \DateTime("now")
-        ])
-        ;
-
+        $form = $this->createForm(RechercheType::class);
 
         $form->handleRequest($request);
 
